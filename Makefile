@@ -1,18 +1,22 @@
 MPICC = mpicc
 NVCC  = nvcc
 
-CFLAGS = -g -Wall -std=c11
+CUBLAS_INCLUDE = -I/usr/local/cuda-11.6/targets/x86_64-linux/include
+
+CFLAGS = -g
+MPICFLAGS = $(CFLAGS) -Wall -std=c11 -cudalib=cublas
+NVCCFLAGS = $(CFLAGS) $(CUBLAS_INCLUDE)
 
 all: aurinko
 
-aurinko: main.o
-	$(MPICC) $^ -o $@
+aurinko: main.o gpu_test.o
+	$(MPICC) $(MPICFLAGS) $^ -o $@
 
 %.o: %.c
-	$(MPICC) $(CFLAGS) -c $< -o $@
+	$(MPICC) $(MPICFLAGS) -c $< -o $@
 
 %.o: %.cu
-	$(NVCC) $(CFLAGS) -c $< -o $@
+	$(NVCC) $(NVCCFLAGS) -c $< -o $@
 
 clean:
 	-rm -f *.o

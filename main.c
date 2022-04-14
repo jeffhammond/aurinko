@@ -21,10 +21,15 @@ int main(int argc, char * argv[])
         }
     }
 
+    MPI_Comm node;
+    MPI_Comm_split_type(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, me, MPI_INFO_NULL, &node);
+
+    int node_rank, node_size;
+    MPI_Comm_rank(node, &node_rank);
+    MPI_Comm_size(node, &node_size);
 
 
-
-
+    MPI_Comm_free(&node);
 
     MPI_Finalize();
 
