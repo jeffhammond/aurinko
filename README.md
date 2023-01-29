@@ -1,2 +1,2 @@
 # aurinko
-Shine some light on whether your suprtcomputer is working
+Shine some light on whether your supercomputer is working
